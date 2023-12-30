@@ -1,3 +1,5 @@
+Coordinates in mm
+
 * #1
 
 NAND
@@ -29,3 +31,139 @@ Write address registers
 | 1 | 0 | 1 |   |
 | 1 | 1 | 0 |   |
 | 1 | 1 | 1 |   |
+
+* Items
+
+- Lxxx :: line
+- Fxxx :: flip-flop
+
+Named in arbitrary order.
+
+Lxxx! is (hopefully...) their source. There should be only one for
+each.
+
+** Flip-flips
+
+*** FAAA
+*** FAAB
+*** FAAC
+*** FAAD
+*** FAAE
+*** FAAF
+*** FAAG
+
+** Lines
+
+*** HTOTAL; /HTOTAL
+
+Output of HORIZONTAL TOTAL COMPARATOR
+
+*** LAAA
+*** LAAB
+*** LAAC
+*** LAAD
+*** LAAE
+*** LAAF
+
+Source is thing (inverter?) at (-165.12,48.85)
+
+Clock input to flip flops: ~1/2 HTOTAL~, ~FAAB~, ~VSYNC POS~, and
+unknown flip-flop-ish-looking thing to the immediate west of ~VSYNC
+POS~.
+
+*** LAAG
+
+Related to ~HTOTAL~
+
+*** LAAH
+
+Emanates from an unusally-shaped bit of green...
+
+*** LAAI
+*** LAAJ
+*** LAAK
+*** LAAL
+
+/HTOTAL && !LAAG
+
+*** LAAM
+*** LAAN
+*** LAAO
+*** LAAP
+
+!/HTOTAL && !LAAG -> HTOTAL && !LAAG
+
+*** LAAQ
+
+Input for FAAF, clocked by LAAP
+
+
+*** LAAR
+
+* Reference guide
+
+** SR flip flop                                                      :ATTACH:
+:PROPERTIES:
+:ID:       4f54b79e-2aee-4b18-9cc0-d0aa3d5f0b8a
+:END:
+
+[[attachment:20231229T163609+0000.png]]
+
+** XOR gate                                                          :ATTACH:
+:PROPERTIES:
+:ID:       11238af3-9fd5-4842-acca-f2f95ffd8f9f
+:END:
+
+[[attachment:20231229T183602+0000.png]]
+
+** D flip flop                                                       :ATTACH:
+:PROPERTIES:
+:ID:       4ac0fe95-61fb-40eb-aa4f-bb6d621af415
+:END:
+
+[[attachment:20231229T232747+0000.png]]
+
+* Transient notes
+
+** Structure above R11
+
+What does this do? Exactly?
+
+Divided into 5 subunits east-west
+
+South unit: each subunit's contact state is:
+
+| North state | SW input | SE input | R |
+|-------------+----------+----------+---|
+|           0 |        0 |        0 |   |
+|           0 |        0 |        1 |   |
+|           0 |        1 |        0 |   |
+|           0 |        1 |        1 | 0 |
+|           1 |        0 |        0 | 0 |
+|           1 |        0 |        1 | 0 |
+|           1 |        1 |        0 | 0 |
+|           1 |        1 |        1 | 0 |
+
+North unit, westmost:
+
+| LAAH | SW in | SE in | NE out | E output |
+|------+-------+-------+--------+----------|
+|    0 |     0 |     0 |      1 |          |
+|    0 |     0 |     1 |      0 |          |
+|    0 |     1 |     0 |      0 |          |
+|    0 |     1 |     1 |      0 |          |
+|    1 |     0 |     0 |      0 |          |
+|    1 |     0 |     1 |      0 |          |
+|    1 |     1 |     0 |      0 |          |
+|    1 |     1 |     1 |      0 |          |
+
+
+Inputs from south are ~/RA4~ and unknown (R11 bit 4)?
+
+Input from west is ~LAAH~
+
+Output from north combines all bits in overall structure
+
+Each unit has an output that feeds east (internal analogue of the
+overall ~LAAH~ input)
+
